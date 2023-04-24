@@ -42,6 +42,13 @@ class CleaveInput extends HTMLElement {
   }
 
   /**
+   * @returns {Cleave}
+   */
+  getCleave() {
+    return this.cleave;
+  }
+
+  /**
    * @returns {HTMLInputElement}
    */
   getInput() {
