@@ -34,7 +34,7 @@ https://github.com/nosir/cleave.js/pull/660
 Add support for hexademical only characters
 https://github.com/nosir/cleave.js/pull/643
 
-TODO: Add support for datetime fields (date and time in same field)
+Add support for datetime fields (date and time in same field)
 https://github.com/nosir/cleave.js/pull/637/files#diff-7d65c334f0c703a676992193c90a1d9a872fb6b8f73c2e624fc72c9eefc54d9e
 
 Fix Ctrl+X behavior in read-only inputs
