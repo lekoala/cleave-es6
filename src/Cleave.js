@@ -125,7 +125,7 @@ class Cleave {
     if (this.isDate() || (this.isTime() && this.config.timeFormat === "24")) {
       this.config.numericOnly = true;
     }
-    if (this.config.numericOnly) {
+    if ((this.config.numericOnly || this.config.numeral) && !el.hasAttribute("inputmode")) {
       // @link https://css-tricks.com/everything-you-ever-wanted-to-know-about-inputmode/#aa-decimal
       el.setAttribute("inputmode", "decimal");
     }
@@ -135,6 +135,10 @@ class Cleave {
 
     instances.set(el, this);
 
+    /**
+     * The new value to apply in updateValueState
+     * @type {string}
+     */
     this.result = "";
 
     this.init();
@@ -491,7 +495,6 @@ class Cleave {
       if (pps.blocks.length === 0) {
         this.result = value;
         this.updateValueState();
-
         return;
       }
     }
@@ -520,7 +523,6 @@ class Cleave {
 
     endPos = CleaveUtils.getNextCursorPosition(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
 
-    //TODO: check if we actually need android specific code since we handle composition
     this.element.value = newValue;
     if (pps.swapHiddenInput) {
       this.elementSwapHidden.value = this.getRawValue();
