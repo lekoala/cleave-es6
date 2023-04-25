@@ -147,17 +147,6 @@ class Cleave {
   }
 
   /**
-   * @param {Event} event
-   */
-  handleEvent(event) {
-    if (events.includes(event.type)) {
-      // Should really not happen, except if this is rebound by some external script
-      const target = this instanceof Cleave ? this : Cleave.getInstance(event.target);
-      target[`on${event.type}`](event);
-    }
-  }
-
-  /**
    * @returns {Boolean}
    */
   isTime() {
@@ -213,6 +202,13 @@ class Cleave {
 
     this.initSwapHiddenInput();
 
+    // Use an arrow function rather than a class method to make sure of this value
+    // Since we listen on this.element, it could be bound to the input rather than Cleave
+    this.handleEvent = (event) => {
+      if (events.includes(event.type)) {
+        this[`on${event.type}`](event);
+      }
+    };
     events.forEach((type) => {
       this.element.addEventListener(type, this);
     });
