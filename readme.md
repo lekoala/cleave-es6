@@ -5,6 +5,8 @@ ES6 port of https://github.com/nosir/cleave.js
 Same features, except no phone or credit card support
 Many PR have been reviewed and added
 
+Demo: https://codepen.io/lekoalabe/pen/eYPvbax
+
 ## What about react and angular ?
 
 I don't see the point of supporting specific frameworks when you can have a custom element that works really well :-)
