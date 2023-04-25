@@ -48,11 +48,9 @@ class CleaveUtils {
   }
 
   static stripDelimiters(value, delimiter, delimiters) {
-    let owner = this;
-
     // single delimiter
     if (delimiters.length === 0) {
-      let delimiterRE = delimiter ? owner.getDelimiterREByDelimiter(delimiter) : "";
+      let delimiterRE = delimiter ? this.getDelimiterREByDelimiter(delimiter) : "";
 
       return value.replace(delimiterRE, "");
     }
@@ -60,7 +58,7 @@ class CleaveUtils {
     // multiple delimiters
     delimiters.forEach((current) => {
       current.split("").forEach((letter) => {
-        value = value.replace(owner.getDelimiterREByDelimiter(letter), "");
+        value = value.replace(this.getDelimiterREByDelimiter(letter), "");
       });
     });
 
@@ -207,9 +205,16 @@ class CleaveUtils {
     return result;
   }
 
-  // move cursor to the end
-  // the first time user focuses on an input with prefix
-  static fixPrefixCursor(el, prefix, delimiter, delimiters) {
+  /**
+   * Move cursor to the end the first time user focuses on an input with prefix
+   * @param {HTMLElement} el
+   * @param {string} prefix
+   * @param {string} delimiter
+   * @param {Array} delimiters
+   * @param {Boolean} tailPrefix
+   * @returns {void}
+   */
+  static fixPrefixCursor(el, prefix, delimiter, delimiters, tailPrefix = false) {
     if (!el) {
       return;
     }
@@ -217,19 +222,25 @@ class CleaveUtils {
     let val = el.value,
       appendix = delimiter || delimiters[0] || " ";
 
-    if (!el.setSelectionRange || !prefix || prefix.length + appendix.length <= val.length) {
+    if (!el.setSelectionRange || !prefix) {
+      return;
+    }
+    // Value is already bigger than prefix
+    if (!tailPrefix && prefix.length + appendix.length <= val.length) {
       return;
     }
 
-    let len = val.length * 2;
-
     // set timeout to avoid blink
     setTimeout(() => {
-      el.setSelectionRange(len, len);
-    }, 1);
+      el.selectionStart = el.selectionEnd = tailPrefix ? el.value.length - prefix.length : el.value.length;
+    }, 0);
   }
 
-  // Check if input field is fully selected
+  /**
+   * Check if input field is fully selected
+   * @param {*} value
+   * @returns {Boolean}
+   */
   static checkFullSelection(value) {
     try {
       let selection = window.getSelection() || document.getSelection() || {};

@@ -241,6 +241,7 @@ class Cleave {
     const hiddenInput = document.createElement("input");
     hiddenInput.type = "hidden";
     hiddenInput.name = this.element.name;
+    hiddenInput.value = this.initValue;
 
     // insert after
     this.element.parentNode.insertBefore(hiddenInput, this.element.nextSibling);
@@ -322,7 +323,7 @@ class Cleave {
 
   onblur(event) {
     const pps = this.config;
-    let value = parseFloat(this.getRawValue());
+    let value = parseFloat(this.getRawValue(true));
 
     // numeral formatter
     // @link https://github.com/nosir/cleave.js/pull/660/commits/c0a3359905ce4b72530d51cab0e71d22b0c6c601
@@ -375,7 +376,7 @@ class Cleave {
       this.formatInput(pps.prefix);
     }
 
-    CleaveUtils.fixPrefixCursor(this.element, pps.prefix, pps.delimiter, pps.delimiters);
+    CleaveUtils.fixPrefixCursor(this.element, pps.prefix, pps.delimiter, pps.delimiters, pps.tailPrefix);
   }
 
   oncut(e) {
@@ -522,6 +523,9 @@ class Cleave {
     const doc = this.element.ownerDocument;
 
     endPos = CleaveUtils.getNextCursorPosition(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
+    if (pps.tailPrefix && endPos === oldValue.length) {
+      endPos -= pps.prefix.length;
+    }
 
     this.element.value = newValue;
     if (pps.swapHiddenInput) {
@@ -546,11 +550,15 @@ class Cleave {
     this.formatInput(value);
   }
 
-  getRawValue() {
+  /**
+   * @param {Boolean} trimPrefix
+   * @returns {String}
+   */
+  getRawValue(trimPrefix = false) {
     const pps = this.config;
     let rawValue = this.element.value;
 
-    if (pps.rawValueTrimPrefix) {
+    if (pps.rawValueTrimPrefix || trimPrefix) {
       rawValue = CleaveUtils.getPrefixStrippedValue(
         rawValue,
         pps.prefix,

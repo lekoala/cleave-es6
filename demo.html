@@ -120,6 +120,18 @@
             </cleave-input>
         </div>
         <div class="mb-3">
+            <label for="prefixcurrencydollar-input" class="form-label">Prefix currency (with hidden input)</label>
+            <cleave-input type="numeral" data-config='{"prefix": "$", "swapHiddenInput": true}'>
+                <input type="text" class="form-control" id="prefixcurrencydollar-input" value="1255" name="prefixcurrencydollar[value]" placeholder="">
+            </cleave-input>
+        </div>
+        <div class="mb-3">
+            <label for="prefixtail-input" class="form-label">Suffix currency (with hidden input)</label>
+            <cleave-input type="numeral" data-config='{"prefix": " €", "swapHiddenInput": true, "tailPrefix": true}'>
+                <input type="text" class="form-control" id="prefixtail-input" value="1255" name="prefixtail[value]" placeholder="">
+            </cleave-input>
+        </div>
+        <div class="mb-3">
             <label for="bephone-input" class="form-label">Belgian phone number</label>
             <cleave-input data-config='{"prefix": "+32(0)","delimiter": " ","blocks": [9, 3, 3],"uppercase": true}'>
                 <input type="text" class="form-control" id="bephone-input" name="bephone" placeholder="+32(0)000 000 000">
