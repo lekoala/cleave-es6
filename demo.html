@@ -10,6 +10,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script type="module" src="./cleave-input.min.js"></script>
+
+    <style>
+        input:invalid {
+            background-color: palevioletred;
+        }
+
+        input[size] {
+            width: auto;
+        }
+    </style>
 </head>
 
 <body class="p-3">
@@ -47,8 +57,8 @@
         <div class="mb-3">
             <label for="datetime-input" class="form-label">Date time</label>
             <cleave-input type="datetime"
-                data-config='{"datePattern": ["Y", "m", "d"], "timePattern": ["h", "m"], "delimiters": ["-","-"," at ", ".", "."]}'>
-                <input type="text" class="form-control" id="datetime-input" name="datetime" placeholder="YYYY-MM-DD at HH:mm">
+                data-config='{"datePattern": ["Y", "m", "d"], "timePattern": ["h", "m"], "delimiters": ["-","-"," at ", "."]}'>
+                <input type="text" class="form-control" id="datetime-input" name="datetime" placeholder="YYYY-MM-DD at HH.mm">
             </cleave-input>
         </div>
         <div class="mb-3">
@@ -84,10 +94,11 @@
             </cleave-input>
         </div>
         <div class="mb-3">
-            <label for="nn-input" class="form-label">Belgian National Number</label>
+            <label for="nn-input" class="form-label">Belgian National Number (with hidden input + validation)</label>
             <cleave-input
-                data-config='{"numericOnly": true, "blocks": [2 ,2 ,2, 3, 3],"uppercase": true, "delimiters": [".", ".", "-", "."]}'>
-                <input type="text" class="form-control" id="nn-input" name="nn" placeholder="YY.MM.DD-XXX.YYY">
+                data-config='{"numericOnly": true, "blocks": [2 ,2 ,2, 3, 3],"uppercase": true, "delimiters": [".", ".", "-", "."], "swapHiddenInput": true}'>
+                <input type="text" class="form-control" id="nn-input" name="nn" placeholder="YY.MM.DD-XXX.YYY" minlength="16" size="16"
+                    required>
             </cleave-input>
         </div>
         <div class="mb-3">
@@ -103,9 +114,9 @@
             </cleave-input>
         </div>
         <div class="mb-3">
-            <label for="prefixcurrency-input" class="form-label">Prefix currency</label>
-            <cleave-input type="numeral" data-config='{"prefix": "£ "}'>
-                <input type="text" class="form-control" id="prefixcurrency-input" name="prefixcurrency" placeholder="">
+            <label for="prefixcurrency-input" class="form-label">Prefix currency (with hidden input and no prefix)</label>
+            <cleave-input type="numeral" data-config='{"prefix": "£ ", "swapHiddenInput": true, "rawValueTrimPrefix": true}'>
+                <input type="text" class="form-control" id="prefixcurrency-input" name="prefixcurrency[value]" placeholder="">
             </cleave-input>
         </div>
         <div class="mb-3">

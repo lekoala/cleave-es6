@@ -229,14 +229,17 @@ class Cleave {
       return;
     }
 
-    const inputFormatter = this.element.cloneNode(true);
-    this.element.parentNode.insertBefore(inputFormatter, this.element);
+    const hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.name = this.element.name;
 
-    this.elementSwapHidden = this.element;
-    this.elementSwapHidden.type = "hidden";
+    // insert after
+    this.element.parentNode.insertBefore(hiddenInput, this.element.nextSibling);
 
-    this.element = inputFormatter;
-    this.element.id = "";
+    this.elementSwapHidden = hiddenInput;
+
+    // keep formatted value (we use prefix for fields like name[arr][val])
+    this.element.name = `cleave_${this.element.name}`;
   }
 
   initNumeralFormatter() {
