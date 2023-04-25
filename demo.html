@@ -115,19 +115,19 @@
         </div>
         <div class="mb-3">
             <label for="prefixcurrency-input" class="form-label">Prefix currency (with hidden input and no prefix)</label>
-            <cleave-input type="numeral" data-config='{"prefix": "£ ", "swapHiddenInput": true, "rawValueTrimPrefix": true}'>
+            <cleave-input type="numeral" data-config='{"prefix": "£ ", "swapHiddenInput": true, "rawValueTrimPrefix": true, "stripLeadingZeroes": true}'>
                 <input type="text" class="form-control" id="prefixcurrency-input" name="prefixcurrency[value]" placeholder="">
             </cleave-input>
         </div>
         <div class="mb-3">
             <label for="prefixcurrencydollar-input" class="form-label">Prefix currency (with hidden input)</label>
-            <cleave-input type="numeral" data-config='{"prefix": "$", "swapHiddenInput": true}'>
+            <cleave-input type="numeral" data-config='{"prefix": "$", "swapHiddenInput": true, "stripLeadingZeroes": true}'>
                 <input type="text" class="form-control" id="prefixcurrencydollar-input" value="1255" name="prefixcurrencydollar[value]" placeholder="">
             </cleave-input>
         </div>
         <div class="mb-3">
             <label for="prefixtail-input" class="form-label">Suffix currency (with hidden input)</label>
-            <cleave-input type="numeral" data-config='{"prefix": " €", "swapHiddenInput": true, "tailPrefix": true}'>
+            <cleave-input type="numeral" data-config='{"prefix": " €", "swapHiddenInput": true, "tailPrefix": true, "stripLeadingZeroes": true}'>
                 <input type="text" class="form-control" id="prefixtail-input" value="1255" name="prefixtail[value]" placeholder="">
             </cleave-input>
         </div>

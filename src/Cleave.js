@@ -325,24 +325,26 @@ class Cleave {
     const pps = this.config;
     let value = parseFloat(this.getRawValue(true));
 
-    // numeral formatter
-    // @link https://github.com/nosir/cleave.js/pull/660/commits/c0a3359905ce4b72530d51cab0e71d22b0c6c601
-    if (
-      pps.numeral &&
-      this.element.value.length > 0 &&
-      (isNaN(value) || // if `.` only entered
-        (pps.numeralPositiveStrict && value === 0))
-    ) {
-      this.result = "";
-      this.updateValueState();
-      return;
-    }
+    // The value can be empty
+    if (this.element.value.length > 0) {
+      // numeral formatter
+      // @link https://github.com/nosir/cleave.js/pull/660/commits/c0a3359905ce4b72530d51cab0e71d22b0c6c601
+      if (
+        pps.numeral &&
+        (isNaN(value) || // if `.` only entered
+          (pps.numeralPositiveStrict && value === 0))
+      ) {
+        this.result = "";
+        this.updateValueState();
+        return;
+      }
 
-    // numeralDecimalPadding
-    // easy version of https://github.com/nosir/cleave.js/pull/707/files
-    if (pps.numeral && pps.numeralDecimalPadding && pps.numeralDecimalScale > 0) {
-      this.result = pps.numeralFormatter.padDecimal(this.element.value);
-      this.updateValueState();
+      // numeralDecimalPadding
+      // easy version of https://github.com/nosir/cleave.js/pull/707/files
+      if (pps.numeral && pps.numeralDecimalPadding && pps.numeralDecimalScale > 0) {
+        this.result = pps.numeralFormatter.padDecimal(this.element.value);
+        this.updateValueState();
+      }
     }
   }
 
