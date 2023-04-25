@@ -137,7 +137,9 @@ class Cleave {
    * @param {Event} event
    */
   handleEvent(event) {
-    this[`on${event.type}`](event);
+    if (events.includes(event.type)) {
+      this[`on${event.type}`](event);
+    }
   }
 
   /**
