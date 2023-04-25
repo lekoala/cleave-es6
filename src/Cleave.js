@@ -609,6 +609,7 @@ class Cleave {
     events.forEach((type) => {
       this.element.removeEventListener(type, this);
     });
+    instances.delete(this.element);
   }
 
   toString() {
