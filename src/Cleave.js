@@ -92,6 +92,7 @@ const defaultConfig = {
 };
 
 const events = ["input", "keydown", "focus", "cut", "copy", "blur", "compositionstart", "compositionend"];
+const instances = new WeakMap();
 
 /**
  * ES6 port of Cleave
@@ -128,9 +129,21 @@ class Cleave {
     this.initValue = el.value;
     this.element = el;
 
+    instances.set(el, this);
+
     this.result = "";
 
     this.init();
+  }
+
+  /**
+   * @param {HTMLElement} el
+   * @returns {Cleave}
+   */
+  static getInstance(el) {
+    if (instances.has(el)) {
+      return instances.get(el);
+    }
   }
 
   /**
@@ -138,7 +151,9 @@ class Cleave {
    */
   handleEvent(event) {
     if (events.includes(event.type)) {
-      this[`on${event.type}`](event);
+      // Should really not happen, except if this is rebound by some external script
+      const target = this instanceof Cleave ? this : Cleave.getInstance(event.target);
+      target[`on${event.type}`](event);
     }
   }
 
