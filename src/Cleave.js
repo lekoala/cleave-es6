@@ -229,7 +229,7 @@ class Cleave {
     // avoid touch input field if value is null
     // otherwise Firefox will add red box-shadow for <input required />
     if (this.initValue || (this.config.prefix && !this.config.noImmediatePrefix)) {
-      this.formatInput(this.initValue);
+      this.setRawValue(this.initValue);
     }
   }
 
@@ -443,7 +443,6 @@ class Cleave {
         this.result = pps.numeralFormatter.format(value);
       }
       this.updateValueState();
-
       return;
     }
 
@@ -507,7 +506,6 @@ class Cleave {
 
     // apply blocks
     this.result = CleaveUtils.getFormattedValue(value, pps.blocks, pps.blocks.length, pps.delimiter, pps.delimiters, pps.delimiterLazyShow);
-
     this.updateValueState();
   }
 
@@ -525,7 +523,7 @@ class Cleave {
     const doc = this.element.ownerDocument;
 
     endPos = CleaveUtils.getNextCursorPosition(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
-    if (pps.tailPrefix && endPos === oldValue.length) {
+    if (pps.tailPrefix && endPos >= oldValue.length) {
       endPos -= pps.prefix.length;
     }
 
@@ -544,6 +542,10 @@ class Cleave {
 
     if (pps.numeral) {
       value = value.replace(".", pps.numeralDecimalMark);
+
+      if (pps.numeralDecimalPadding) {
+        value = pps.numeralFormatter.padDecimal(value);
+      }
     }
 
     pps.postDelimiterBackspace = false;

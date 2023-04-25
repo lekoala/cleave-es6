@@ -49,7 +49,7 @@ class CleaveNumber {
     let partInteger = value;
     let partDecimal = "";
     if (value.indexOf(this.numeralDecimalMark) >= 0) {
-      parts = value.split(this.numeralDecimalMark);
+      let parts = value.split(this.numeralDecimalMark);
       partInteger = parts[0];
       partDecimal = this.numeralDecimalMark + parts[1].slice(0, this.numeralDecimalScale);
     }
@@ -134,17 +134,14 @@ class CleaveNumber {
     switch (this.numeralThousandsGroupStyle) {
       case groupStyle.lakh:
         partInteger = partInteger.replace(/(\d)(?=(\d\d)+\d$)/g, "$1" + this.delimiter);
-
         break;
 
       case groupStyle.wan:
         partInteger = partInteger.replace(/(\d)(?=(\d{4})+$)/g, "$1" + this.delimiter);
-
         break;
 
       case groupStyle.thousand:
         partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, "$1" + this.delimiter);
-
         break;
     }
 
