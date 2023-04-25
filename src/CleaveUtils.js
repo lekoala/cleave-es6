@@ -71,6 +71,11 @@ class CleaveUtils {
     return str.slice(0, length);
   }
 
+  /**
+   * Get raw max length
+   * @param {Array} blocks
+   * @returns {Number}
+   */
   static getMaxLength(blocks) {
     return blocks.reduce((previous, current) => {
       return previous + current;
@@ -269,21 +274,9 @@ class CleaveUtils {
     return activeElement;
   }
 
-  static isAndroid() {
-    return navigator && /android/i.test(navigator.userAgent);
-  }
-
-  // On Android chrome, the keyup and keydown events
-  // always return key code 229 as a composition that
-  // buffers the user’s keystrokes
-  // see https://github.com/nosir/cleave.js/issues/147
-  static isAndroidBackspaceKeydown(lastInputValue, currentInputValue) {
-    if (!this.isAndroid() || !lastInputValue || !currentInputValue) {
-      return false;
-    }
-
-    return currentInputValue === lastInputValue.slice(0, -1);
-  }
+  // static isAndroid() {
+  //   return navigator && /android/i.test(navigator.userAgent);
+  // }
 
   static getDateTimeValue(value, dateFormatter, timeFormatter, delimiters) {
     let splitDelimiterIndex = dateFormatter.getBlocks().length - 1;

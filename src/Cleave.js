@@ -122,8 +122,12 @@ class Cleave {
       opts
     );
 
-    if (this.isDate()) {
+    if (this.isDate() || (this.isTime() && this.config.timeFormat === "24")) {
       this.config.numericOnly = true;
+    }
+    if (this.config.numericOnly) {
+      // @link https://css-tricks.com/everything-you-ever-wanted-to-know-about-inputmode/#aa-decimal
+      el.setAttribute("inputmode", "decimal");
     }
 
     this.initValue = el.value;
@@ -192,9 +196,10 @@ class Cleave {
   }
 
   init() {
+    // This is the raw maxLength. Maybe at some point it would make sense to use regular html input maxlength ??
     this.config.maxLength = CleaveUtils.getMaxLength(this.config.blocks);
 
-    this.isAndroid = CleaveUtils.isAndroid();
+    // this.isAndroid = CleaveUtils.isAndroid();
     this.lastInputValue = "";
     this.isBackward = "";
     //@link https://github.com/nosir/cleave.js/pull/663/commits/af08e17c0138ad1eb522f8e3addf70abed7dc5b9
@@ -515,23 +520,11 @@ class Cleave {
 
     endPos = CleaveUtils.getNextCursorPosition(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
 
-    // fix Android browser type="text" input field
-    // cursor not jumping issue
-    if (this.isAndroid) {
-      window.setTimeout(() => {
-        this.element.value = newValue;
-        CleaveUtils.setSelection(this.element, endPos, doc, false);
-        this.config.onValueChanged(this);
-      }, 1);
-
-      return;
-    }
-
+    //TODO: check if we actually need android specific code since we handle composition
     this.element.value = newValue;
     if (pps.swapHiddenInput) {
       this.elementSwapHidden.value = this.getRawValue();
     }
-
     CleaveUtils.setSelection(this.element, endPos, doc, false);
     this.config.onValueChanged(this);
   }
