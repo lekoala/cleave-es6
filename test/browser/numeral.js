@@ -128,7 +128,20 @@ test("it should pad decimals on blur", (t) => {
     numeralDecimalScale: 4,
   });
 
-  field.value = "";
+  field.value = "0";
   cleave.onblur();
   t.is(field.value, "0.0000");
+});
+
+test("it should not pad decimals blank on blur", (t) => {
+  var field = document.createElement("input");
+  var cleave = new Cleave(field, {
+    numeral: true,
+    numeralPositiveOnly: true,
+    numeralDecimalPadding: true,
+  });
+
+  field.value = "";
+  cleave.onblur();
+  t.is(field.value, "");
 });
