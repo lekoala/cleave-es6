@@ -18,7 +18,7 @@ test("custom element works as expected", (t) => {
   t.true(cEl.getInput() === input);
 });
 
-test("custom element set an id", (t) => {
+test("custom element set an id", async (t) => {
   var el = document.createElement("div");
   el.innerHTML = `<label for="date-input" class="form-label">Date</label>
       <cleave-input type="date">
@@ -29,6 +29,11 @@ test("custom element set an id", (t) => {
   const cEl = el.querySelector("cleave-input");
   cEl.connectedCallback();
 
-  const input = el.querySelector("input");
-  t.true(input.hasAttribute("id"));
+  await new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const input = el.querySelector("input");
+      t.true(input.hasAttribute("id"));
+      resolve();
+    });
+  });
 });
