@@ -11,6 +11,10 @@
       "./test/_setup-browser-env.js"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lekoala/cleave-es6"
+  },
   "devDependencies": {
     "@happy-dom/global-registrator": "^9.9.2",
     "ava": "^5.2.0",
