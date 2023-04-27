@@ -14,6 +14,13 @@ class CleaveInput extends HTMLElement {
   connectedCallback() {
     counter++;
 
+    // make sure it's parsed
+    setTimeout(() => {
+      this.init();
+    });
+  }
+
+  init() {
     let c = {};
     const dataConfig = this.dataset.config;
     if (dataConfig) {
