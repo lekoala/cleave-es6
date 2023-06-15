@@ -40,6 +40,7 @@ import CleaveNumber from "./CleaveNumber.js";
  * @property {boolean} delimiterLazyShow
  * @property {Array} delimiters
  * @property {Array} blocks
+ * @property {string} allowedChars
  * @property {Function} onValueChanged
  * @property {Number} maxLength
  */
@@ -87,6 +88,7 @@ const defaultConfig = {
   delimiterLazyShow: false,
   delimiters: [],
   blocks: [],
+  allowedChars: null,
   onValueChanged: () => {},
   maxLength: 0,
 };
@@ -350,6 +352,19 @@ class Cleave {
 
   oninput(event) {
     const pps = this.config;
+
+    if (pps.allowedChars) {
+      const data = this.element.value;
+      if (data) {
+        const del = pps.delimiters.slice();
+        del.push(pps.delimiter);
+        this.element.value = CleaveUtils.filterByRegex(this.element.value, pps.allowedChars, del);
+        // Input was prevented
+        if (this.element.value != data) {
+          return;
+        }
+      }
+    }
 
     if (this.isComposition) {
       this.result = event.target.value;

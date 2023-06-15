@@ -3,6 +3,19 @@ class CleaveUtils {
     return value.replace(re, "");
   }
 
+  static filterByRegex(str, expr, delimiters = []) {
+    const regex = new RegExp(expr);
+    return str
+      .split("")
+      .filter((char, i) => {
+        if (delimiters.includes(char)) {
+          return true;
+        }
+        return regex.test(char);
+      })
+      .join("");
+  }
+
   static getPostDelimiter(value, delimiter, delimiters) {
     // single delimiter
     if (delimiters.length === 0) {

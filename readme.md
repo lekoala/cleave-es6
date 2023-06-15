@@ -54,6 +54,9 @@ https://github.com/nosir/cleave.js/pull/619
 Fix backspace bug when next delimiter partially match previous
 https://github.com/nosir/cleave.js/pull/579
 
+Limit input chars
+https://github.com/nosir/cleave.js/issues/680
+
 ## But I want credit card and phone support!
 
 Well, I think there are better libs out there
