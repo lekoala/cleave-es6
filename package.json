@@ -1,7 +1,7 @@
 {
   "name": "cleave-es6",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Format your input text",
   "main": "cleave-input",
   "author": "LeKoala",
