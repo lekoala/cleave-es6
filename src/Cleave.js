@@ -359,8 +359,8 @@ class Cleave {
         const del = pps.delimiters.slice();
         del.push(pps.delimiter);
         this.element.value = CleaveUtils.filterByRegex(this.element.value, pps.allowedChars, del);
-        // Input was prevented
-        if (this.element.value != data) {
+        // Input was prevented when typing, don't process further (paste needs to go trough)
+        if (this.element.value != data && event.inputType == "insertText") {
           return;
         }
       }
