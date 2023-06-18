@@ -144,11 +144,59 @@
         </div>
         <div class="mb-3">
             <label for="limited-input" class="form-label">Limited input (X, Y, Z, 0 to 9, +, -, *, /, %)</label>
-            <cleave-input data-config='{"delimiter": " ","blocks": [3, 3, 3, 3],"uppercase": true, "allowedChars": "[XYZ0-9%+/*-]", "delimiters": [" ", ".", "-"]}'>
+            <cleave-input
+                data-config='{"delimiter": " ","blocks": [3, 3, 3, 3],"uppercase": true, "allowedChars": "[XYZ0-9%+/*-]", "delimiters": [" ", ".", "-"]}'>
                 <input type="text" class="form-control" id="limited-input" name="limited" placeholder="XXX 123 ZZZ">
             </cleave-input>
         </div>
+        <div class="mb-3">
+            <label for="variable-input" class="form-label">Variables blocks</label>
+            <cleave-input data-config='{"delimiter": " ","blocks": [4,4,4,4], "allowedChars": "[a-zA-Z0-9]"}' id="variable-input-el">
+                <input type="text" class="form-control" id="variable-input" name="variable" placeholder="Enter your bank account">
+            </cleave-input>
+            <script type="module">
+                const BLOCKS = {
+                    AT: [4, 4, 4, 4, 4],
+                    BE: [4, 4, 4, 4],
+                    __: [4, 4, 4, 4, 4, 4, 4, 4, 2],
+                };
+
+                const el = document.getElementById('variable-input-el');
+                const config = JSON.parse(el.dataset.config);
+                el.addEventListener('input', (ev) => {
+                    // Determine blocks based on first two characters.
+                    const code = event.target.value.slice(0, 2) || '__';
+                    const blocks = BLOCKS[code] ?? BLOCKS['__'];
+
+                    console.log('input', code, blocks);
+
+                    const inst = el.getCleave();
+
+                    // Update config with new blocks.
+                    inst.setBlocks(blocks);
+
+                    // Update data-config with new blocks.
+                    // el.dataset.config = JSON.stringify({
+                    //     ...config,
+                    //     blocks,
+                    // });
+                    // el.init();
+
+                });
+            </script>
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
     </form>
 </body>
 

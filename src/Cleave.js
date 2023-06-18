@@ -202,9 +202,6 @@ class Cleave {
   }
 
   init() {
-    // This is the raw maxLength. Maybe at some point it would make sense to use regular html input maxlength ??
-    this.config.maxLength = CleaveUtils.getMaxLength(this.config.blocks);
-
     // this.isAndroid = CleaveUtils.isAndroid();
     this.lastInputValue = "";
     this.isBackward = "";
@@ -224,15 +221,25 @@ class Cleave {
       this.element.addEventListener(type, this);
     });
 
-    this.initDateFormatter();
-    this.initTimeFormatter();
-    this.initNumeralFormatter();
+    this.setBlocks();
 
     // avoid touch input field if value is null
     // otherwise Firefox will add red box-shadow for <input required />
     if (this.initValue || (this.config.prefix && !this.config.noImmediatePrefix)) {
       this.setRawValue(this.initValue);
     }
+  }
+
+  setBlocks(blocks = null) {
+    if (blocks) {
+      this.config.blocks = blocks;
+    }
+    // This is the raw maxLength. Maybe at some point it would make sense to use regular html input maxlength ??
+    this.config.maxLength = CleaveUtils.getMaxLength(this.config.blocks);
+
+    this.initDateFormatter();
+    this.initTimeFormatter();
+    this.initNumeralFormatter();
   }
 
   initSwapHiddenInput() {

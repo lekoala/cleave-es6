@@ -21,6 +21,11 @@ class CleaveInput extends HTMLElement {
   }
 
   init() {
+    // If we reinitialize, destroy current instance
+    if (this.cleave) {
+      this.cleave.destroy();
+    }
+
     let c = {};
     const dataConfig = this.dataset.config;
     if (dataConfig) {
@@ -45,7 +50,10 @@ class CleaveInput extends HTMLElement {
   }
 
   disconnectedCallback() {
-    this.cleave.destroy();
+    // This may be disconnected before it's created
+    if (this.cleave) {
+      this.cleave.destroy();
+    }
   }
 
   /**
