@@ -63,3 +63,5 @@ Well, I think there are better libs out there
 
 - cardjs: https://cardjs.co.uk/
 - intl tel: https://intl-tel-input.com/
+
+You can check out my other library https://github.com/lekoala/formidable-elements for more :-)
