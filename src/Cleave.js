@@ -213,9 +213,7 @@ class Cleave {
     // Use an arrow function rather than a class method to make sure of this value
     // Since we listen on this.element, it could be bound to the input rather than Cleave
     this.handleEvent = (event) => {
-      if (events.includes(event.type)) {
-        this[`on${event.type}`](event);
-      }
+      this._handleEvent(event);
     };
     events.forEach((type) => {
       this.element.addEventListener(type, this);
@@ -227,6 +225,16 @@ class Cleave {
     // otherwise Firefox will add red box-shadow for <input required />
     if (this.initValue || (this.config.prefix && !this.config.noImmediatePrefix)) {
       this.setRawValue(this.initValue);
+    }
+  }
+
+  handleEvent(event) {
+    this._handleEvent(event);
+  }
+
+  _handleEvent(event) {
+    if (events.includes(event.type)) {
+      this[`on${event.type}`](event);
     }
   }
 
