@@ -23,9 +23,10 @@
   "scripts": {
     "test": "ava",
     "build": "esbuild --bundle --minify --format=iife cleave-input.js --outfile=cleave-input.min.js",
+    "build-min": "npm run build && git add -A && git commit -m \"build min file\"",
     "start": "npm run build -- --servedir=.",
     "watch": "npm run build -- --watch",
-    "bump": "npm run build && npm version patch",
+    "bump": "npm run build-min && npm version patch",
     "update-deps": "npx npm-check-updates -u"
   }
 }
