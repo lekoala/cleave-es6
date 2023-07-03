@@ -204,7 +204,7 @@ class Cleave {
   init() {
     // this.isAndroid = CleaveUtils.isAndroid();
     this.lastInputValue = "";
-    this.isBackward = "";
+    this.isBackward = false;
     //@link https://github.com/nosir/cleave.js/pull/663/commits/af08e17c0138ad1eb522f8e3addf70abed7dc5b9
     this.isComposition = false;
 
@@ -461,6 +461,10 @@ class Cleave {
     let postDelimiterAfter = CleaveUtils.getPostDelimiter(value, pps.delimiter, pps.delimiters);
     if (!pps.numeral && pps.postDelimiterBackspace && !postDelimiterAfter) {
       value = CleaveUtils.headStr(value, value.length - pps.postDelimiterBackspace.length);
+    }
+    // Make sure clearing the whole value is only keeping the prefix
+    if (this.isBackward && !value && pps.prefix) {
+      value = pps.prefix;
     }
 
     // numeral formatter
