@@ -42,6 +42,8 @@ import CleaveNumber from "./CleaveNumber.js";
  * @property {Array} blocks
  * @property {string} allowedChars
  * @property {Function} onValueChanged
+ * @property {Function} onBeforeInput
+ * @property {Function} onAfterInput
  * @property {Number} maxLength
  */
 
@@ -89,7 +91,9 @@ const defaultConfig = {
   delimiters: [],
   blocks: [],
   allowedChars: null,
-  onValueChanged: () => {},
+  onValueChanged: null,
+  onBeforeInput: null,
+  onAfterInput: null,
   maxLength: 0,
 };
 
@@ -250,6 +254,10 @@ class Cleave {
     this.initNumeralFormatter();
   }
 
+  setConfig(k, v) {
+    this.config[k] = v;
+  }
+
   initSwapHiddenInput() {
     if (!this.config.swapHiddenInput) {
       return;
@@ -368,6 +376,18 @@ class Cleave {
   oninput(event) {
     const pps = this.config;
 
+    this.dispatch("beforeinput", {
+      event,
+    });
+    if (pps.onBeforeInput) {
+      const res = pps.onBeforeInput(this);
+
+      // You can prevent formatting
+      if (res === false) {
+        return;
+      }
+    }
+
     if (pps.allowedChars) {
       const data = this.element.value;
       if (data) {
@@ -398,6 +418,23 @@ class Cleave {
     }
 
     this.formatInput(this.element.value);
+
+    this.dispatch("afterinput", {
+      event,
+    });
+    if (pps.onAfterInput) {
+      pps.onAfterInput(this);
+    }
+  }
+
+  dispatch(name, detail = {}) {
+    const bubbles = true;
+    this.element.dispatchEvent(
+      new CustomEvent("cleave." + name, {
+        bubbles,
+        detail,
+      })
+    );
   }
 
   onfocus() {
@@ -540,9 +577,14 @@ class Cleave {
 
     // apply blocks
     this.result = CleaveUtils.getFormattedValue(value, pps.blocks, pps.blocks.length, pps.delimiter, pps.delimiters, pps.delimiterLazyShow);
+    console.log(this.result);
     this.updateValueState();
   }
 
+  /**
+   * Assign this.result to element value and calls value changed
+   * @returns
+   */
   updateValueState() {
     const pps = this.config;
 
@@ -551,7 +593,7 @@ class Cleave {
     }
 
     let endPos = this.element.selectionEnd;
-    let oldValue = this.element.value;
+    let oldValue = "" + this.element.value;
     let newValue = this.result;
 
     const doc = this.element.ownerDocument;
@@ -566,7 +608,14 @@ class Cleave {
       this.elementSwapHidden.value = this.getRawValue();
     }
     CleaveUtils.setSelection(this.element, endPos, doc, false);
-    this.config.onValueChanged(this);
+
+    this.dispatch("valuechanged", {
+      oldValue,
+      newValue,
+    });
+    if (this.config.onValueChanged) {
+      this.config.onValueChanged(this);
+    }
   }
 
   setRawValue(value) {

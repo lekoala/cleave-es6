@@ -10,6 +10,10 @@ import Cleave from "./src/Cleave.js";
 
 let counter = 0;
 
+function getGlobalFn(fn) {
+  return fn.split(".").reduce((r, p) => r[p], window);
+}
+
 class CleaveInput extends HTMLElement {
   connectedCallback() {
     counter++;
@@ -31,6 +35,13 @@ class CleaveInput extends HTMLElement {
     if (dataConfig) {
       c = Object.assign(c, JSON.parse(dataConfig));
     }
+
+    const fnNames = ["onValueChanged", "onBeforeInput", "onAfterInput"];
+    fnNames.forEach((fnName) => {
+      if (typeof c[fnName] == "string") {
+        c[fnName] = getGlobalFn(c[fnName]);
+      }
+    });
 
     const input = this.getInput();
     const id = input.getAttribute("id") || `cleave-input-${counter}`;
@@ -60,6 +71,9 @@ class CleaveInput extends HTMLElement {
    * @returns {Cleave}
    */
   getCleave() {
+    if (!this.cleave) {
+      throw Error("Cleave is not initialized yet");
+    }
     return this.cleave;
   }
 

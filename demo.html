@@ -11,6 +11,14 @@
 
     <script type="module" src="./cleave-input.min.js"></script>
 
+    <script>
+        window['myapp'] = {
+            onValueChanged: (inst) => {
+                console.log("value changed", inst.element.value);
+            }
+        }
+    </script>
+
     <style>
         input:invalid {
             background-color: palevioletred;
@@ -151,7 +159,9 @@
         </div>
         <div class="mb-3">
             <label for="variable-input" class="form-label">Variables blocks</label>
-            <cleave-input data-config='{"delimiter": " ","blocks": [4,4,4,4], "allowedChars": "[a-zA-Z0-9]"}' id="variable-input-el">
+            <cleave-input
+                data-config='{"delimiter": " ","blocks": [4,4,4,4], "allowedChars": "[a-zA-Z0-9]", "uppercase": true, "onValueChanged" : "myapp.onValueChanged"}'
+                id="variable-input-el">
                 <input type="text" class="form-control" id="variable-input" name="variable" placeholder="Enter your bank account">
             </cleave-input>
             <script type="module">
@@ -163,17 +173,29 @@
 
                 const el = document.getElementById('variable-input-el');
                 const config = JSON.parse(el.dataset.config);
-                el.addEventListener('input', (ev) => {
+
+                el.addEventListener('cleave.valuechanged', (ev) => {
+                    console.log("value changed", ev.detail)
+                })
+
+                el.addEventListener('cleave.beforeinput', (ev) => {
                     // Determine blocks based on first two characters.
                     const code = event.target.value.slice(0, 2) || '__';
                     const blocks = BLOCKS[code] ?? BLOCKS['__'];
 
-                    console.log('input', code, blocks);
-
                     const inst = el.getCleave();
+                    inst.setBlocks(blocks);
+                });
+
+                el.addEventListener('input', (ev) => {
+                    // Determine blocks based on first two characters.
+                    // const code = event.target.value.slice(0, 2) || '__';
+                    // const blocks = BLOCKS[code] ?? BLOCKS['__'];
+
+                    // const inst = el.getCleave();
 
                     // Update config with new blocks.
-                    inst.setBlocks(blocks);
+                    // inst.setBlocks(blocks);
 
                     // Update data-config with new blocks.
                     // el.dataset.config = JSON.stringify({
