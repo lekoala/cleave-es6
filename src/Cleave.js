@@ -577,7 +577,6 @@ class Cleave {
 
     // apply blocks
     this.result = CleaveUtils.getFormattedValue(value, pps.blocks, pps.blocks.length, pps.delimiter, pps.delimiters, pps.delimiterLazyShow);
-    console.log(this.result);
     this.updateValueState();
   }
 
