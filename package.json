@@ -16,9 +16,9 @@
     "url": "https://github.com/lekoala/cleave-es6"
   },
   "devDependencies": {
-    "@happy-dom/global-registrator": "^9.9.2",
-    "ava": "^5.2.0",
-    "esbuild": "^0.17.18"
+    "@happy-dom/global-registrator": "^9.20.3",
+    "ava": "^5.3.1",
+    "esbuild": "^0.18.11"
   },
   "scripts": {
     "test": "ava",
